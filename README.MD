@@ -2,6 +2,8 @@
 
 Simple API for generating shortening API, inspired by [tinly.url](https://tinyurl.com/) and [bit.ly](https://bitly.com/). the main goals for this project were learning system design and golang implementation.
 
+visit [project wiki](https://github.com/peterchu999/url-shorterner/wiki) to learn more
+
 ## Run The App
 
 ```sh
