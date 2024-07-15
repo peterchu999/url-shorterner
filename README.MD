@@ -19,6 +19,38 @@ gin --appPort 8080 --port 3000
 - change the `appPor`t with the .env `PORT`, default gin server would serve at `8080` port
 - `port` flag was used to setup the proxy server, default `3000`
 
+## API
+
+- ### Create short url
+
+  - path: `/short`
+  - method: `POST`
+  - content-type: `application/json`
+  - request body:
+    - attribute:
+      - _long-url_ : `url`
+    - example:
+      ```
+      {
+          "long-url": "https://google.com"
+      }
+      ```
+  - response:
+    - attribute:
+      - _short-url_: `url`
+    - example:
+      ```
+      {
+          "short_url": "localhost:3000/t/h"
+      }
+      ```
+
+- ### Redirect short url
+  - path: `/:shortUrl`
+  - method: `GET`
+  - path parameter:
+    - shortUrl : the short url generated from the `create short url` api
+
 ## Tech Stack
 
 - Gin -> http library
