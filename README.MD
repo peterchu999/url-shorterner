@@ -1,5 +1,7 @@
 # URL Shorterner
 
+Simple API for generating shortening API, inspired by [tinly.url](https://tinyurl.com/) and [bit.ly](https://bitly.com/). the main goals for this project were learning system design and golang implementation.
+
 ## Tech Stack
 
 - Gin -> http library
