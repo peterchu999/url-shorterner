@@ -21,35 +21,34 @@ gin --appPort 8080 --port 3000
 
 ## API
 
-- ### Create short url
+<details>
+<summary> Create short url</summary>
 
-  - path: `/short`
-  - method: `POST`
-  - content-type: `application/json`
-  - request body:
-    - attribute:
-      - _long-url_ : `url`
-    - example:
-      ```
-      {
-          "long-url": "https://google.com"
-      }
-      ```
-  - response:
-    - attribute:
-      - _short-url_: `url`
-    - example:
-      ```
-      {
+- path: `/short`
+- method: `POST`
+- content-type: `application/json`
+- request body:
+  - attribute:
+    - _long-url_ : `url`
+  - example:
+    ```
+    {
+        "long-url": "https://google.com"
+    }
+    ```
+- response: - attribute: - _short-url_: `url` - example:
+`{
           "short_url": "localhost:3000/t/h"
-      }
-      ```
+      }`
+</details>
 
-- ### Redirect short url
+<details>
+<summary> Redirect short url</summary>
   - path: `/:shortUrl`
   - method: `GET`
   - path parameter:
     - shortUrl : the short url generated from the `create short url` api
+</details>
 
 ## Tech Stack
 
