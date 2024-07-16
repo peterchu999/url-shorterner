@@ -1,0 +1,25 @@
+version: "1.0.1"
+
+services:
+  backend:
+    depends_on:
+      - db
+    build: .
+    env_file:
+      - .env
+    environment:
+      - MONGO_DB_URI=db://db:27017
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    command: gin run main.go --appPort 8080 --port 3000
+  db:
+    image: mongodb/mongodb-community-server:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-db:/data/db
+
+volumes:
+  mongo-db:
