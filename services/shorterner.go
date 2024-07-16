@@ -21,7 +21,7 @@ func (us *URLService) CreateShortUrl(createShortUrlDto CreateShortUrlDto) (strin
 	if err != nil {
 		return "", err
 	}
-	shortUrl := urlUtils.GenerateShortUrl(idx)
+	shortUrl := urlUtils.GenerateShortUrl(idx + 1)
 	err = repo.CreateUrlData(model.URL{
 		LongUrl:  createShortUrlDto.LongUrl,
 		ShortUrl: shortUrl,

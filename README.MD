@@ -13,13 +13,21 @@ go run main.go
 ### Run with Hot reload
 
 I encourage you to install [gin](https://github.com/codegangsta/gin?tab=readme-ov-file) it help with hot / live realoading.
+**NOTE** remember to change the mongodb uri in `.env`
 
 ```sh
-gin --appPort 8080 --port 3000
+EXPORT gin --appPort 8080 --port 3000
 ```
 
-- change the `appPor`t with the .env `PORT`, default gin server would serve at `8080` port
-- `port` flag was used to setup the proxy server, default `3000`
+### Run with Docker Compose
+
+The docker and docker compose file are already setup so just run the script below to make sure the apps is running
+
+**NOTE** remember to change the mongodb uri in `.env`
+
+```sh
+docker compose up
+```
 
 ## API
 

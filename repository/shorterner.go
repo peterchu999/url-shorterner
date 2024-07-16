@@ -31,7 +31,10 @@ func CreateUrlData(url URL) error {
 	if err != nil {
 		return err
 	}
-	_, err2 := MongoDB.Collection(COLLECTION_NAME+"_indexes").UpdateOne(context.TODO(), bson.M{"name": "url"}, bson.D{{Key: "$inc", Value: bson.D{{Key: "count", Value: 1}}}})
+	opsUpsert := options.Update().SetUpsert(true)
+	updateBson := bson.D{
+		{Key: "$inc", Value: bson.D{{Key: "count", Value: 1}}}, {Key: "$setOnInsert", Value: bson.D{{Key: "name", Value: "url"}}}}
+	_, err2 := MongoDB.Collection(COLLECTION_NAME+"_indexes").UpdateOne(context.TODO(), bson.M{"name": "url"}, updateBson, opsUpsert)
 
 	return err2
 }
@@ -39,7 +42,10 @@ func CreateUrlData(url URL) error {
 func GetCurrentCount() (int, error) {
 	collection := MongoDB.Collection(COLLECTION_NAME + "_indexes")
 	res := collection.FindOne(context.TODO(), bson.M{"name": "url"})
-	if res.Err() != nil {
+
+	if res.Err() == mongo.ErrNoDocuments {
+		return 0, nil
+	} else if res.Err() != nil {
 		return 0, res.Err()
 	}
 	var index URLIndex
