@@ -5,9 +5,18 @@ import (
 	"peterchu999/url-shorterner/model"
 	repo "peterchu999/url-shorterner/repository"
 	urlUtils "peterchu999/url-shorterner/utils/urls"
+	"sync"
 )
 
-func CreateShortUrl(createShortUrlDto CreateShortUrlDto) (string, error) {
+type URLService struct {
+	sync.Mutex
+}
+
+var URLServiceObject *URLService
+
+func (us *URLService) CreateShortUrl(createShortUrlDto CreateShortUrlDto) (string, error) {
+	us.Lock()
+	defer us.Unlock()
 	idx, err := repo.GetCurrentCount()
 	if err != nil {
 		return "", err
@@ -17,5 +26,10 @@ func CreateShortUrl(createShortUrlDto CreateShortUrlDto) (string, error) {
 		LongUrl:  createShortUrlDto.LongUrl,
 		ShortUrl: shortUrl,
 	})
+
 	return shortUrl, err
+}
+
+func init() {
+	URLServiceObject = &URLService{}
 }

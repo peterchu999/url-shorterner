@@ -14,7 +14,7 @@ func CreateShort(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	shortUrl, errCreate := services.CreateShortUrl(createShortUrlDto)
+	shortUrl, errCreate := services.URLServiceObject.CreateShortUrl(createShortUrlDto)
 	if errCreate != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errCreate.Error()})
 		return
