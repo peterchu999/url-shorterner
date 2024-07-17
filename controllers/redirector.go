@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 	"peterchu999/url-shorterner/services"
 
@@ -9,10 +8,20 @@ import (
 )
 
 func RedirectShort(c *gin.Context) {
-
-	log.Println(c.ClientIP())
+	// log.Println(c.ClientIP())
 	shortUrl := c.Param("short")
 	longUrl, err := services.GetRedirectUrl(shortUrl)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	c.Redirect(http.StatusPermanentRedirect, longUrl)
+}
+
+func RedirectShortFast(c *gin.Context) {
+	// log.Println(c.ClientIP())
+	shortUrl := c.Param("short")
+	longUrl, err := services.GetRedirectUrlFast(shortUrl)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
