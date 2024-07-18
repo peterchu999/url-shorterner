@@ -19,5 +19,5 @@ func CreateShort(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errCreate.Error()})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{"short_url": c.Request.Host + "/t/" + shortUrl})
+	c.JSON(http.StatusCreated, gin.H{"short_url": c.Request.Host + shortUrl})
 }

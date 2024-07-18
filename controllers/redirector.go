@@ -3,25 +3,33 @@ package controllers
 import (
 	"net/http"
 	"peterchu999/url-shorterner/services"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
-func RedirectShort(c *gin.Context) {
-	// log.Println(c.ClientIP())
-	shortUrl := c.Param("short")
-	longUrl, err := services.GetRedirectUrl(shortUrl)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
-		return
-	}
-	c.Redirect(http.StatusPermanentRedirect, longUrl)
+func extractPath(path string, n int) string {
+	splitted := strings.Split(path, "/")
+	return splitted[n]
 }
 
-func RedirectShortFast(c *gin.Context) {
-	// log.Println(c.ClientIP())
+func RedirectShort(c *gin.Context) {
+	path := c.FullPath()
+	redirectPath := extractPath(path, 1)
 	shortUrl := c.Param("short")
-	longUrl, err := services.GetRedirectUrlFast(shortUrl)
+
+	var getRedirectUrl func(string) (string, error)
+	switch redirectPath {
+	case "t":
+		getRedirectUrl = services.GetRedirectUrl
+	case "f":
+		getRedirectUrl = services.GetRedirectUrlFast
+	case "c":
+		getRedirectUrl = services.GetCustomRedirectUrl
+	default:
+		getRedirectUrl = services.GetRedirectUrl
+	}
+	longUrl, err := getRedirectUrl(shortUrl)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
